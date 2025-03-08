@@ -3,6 +3,7 @@
 @layer base {
   * {
     @apply border-neutral-200;
+    outline: none;
   }
 }
 

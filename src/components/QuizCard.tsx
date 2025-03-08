@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import UpdateScoreButton from "./UpdateScoreButton";
 
 export default function QuizCard() {
   return (
@@ -19,9 +20,7 @@ export default function QuizCard() {
           </p>
         </div>
       </div>
-      <button className="rounded-md border-2 border-black bg-blue-900 px-6 py-2 text-sm font-semibold text-white">
-        Update
-      </button>
+      <UpdateScoreButton />
     </div>
   );
 }
