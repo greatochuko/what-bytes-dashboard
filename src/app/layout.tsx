@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Open_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
+import SidebarProvider from "@/context/sidebarContext";
 
-const roboto = Open_Sans({
+const roboto = Inter({
   subsets: ["latin"],
 });
 
@@ -23,11 +24,13 @@ export default function RootLayout({
       <body
         className={`${roboto.className} flex min-h-dvh flex-col antialiased`}
       >
-        <Header />
-        <main className="flex flex-1 gap-8">
-          <Sidebar />
-          {children}
-        </main>
+        <SidebarProvider>
+          <Header />
+          <main className="flex flex-1 gap-8">
+            <Sidebar />
+            {children}
+          </main>
+        </SidebarProvider>
       </body>
     </html>
   );

@@ -1,13 +1,13 @@
-import { MenuIcon } from "lucide-react";
+"use client";
+
 import Image from "next/image";
 import React from "react";
+import ToggleSidebarButton from "./ToggleSidebarButton";
 
 export default function Header() {
   return (
     <header className="flex items-center justify-between border-b px-2 py-4 sm:px-5.5 sm:py-5.5">
-      <button className="rounded-md p-1 text-neutral-600 duration-200 hover:bg-zinc-100 hover:text-neutral-800 sm:hidden">
-        <MenuIcon />
-      </button>
+      <ToggleSidebarButton />
       <div className="flex items-center gap-2">
         <Image
           src={"/whatbytes_logo.png"}
