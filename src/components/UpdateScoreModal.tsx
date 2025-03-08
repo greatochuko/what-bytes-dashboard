@@ -23,7 +23,7 @@ export default function UpdateScoreModal({
         return !value || Number(value) > 15;
 
       case "percentile":
-        return !value;
+        return !value || Number(value) > 100;
 
       case "rank":
         return !value || Number(value) < 1;
@@ -81,17 +81,23 @@ export default function UpdateScoreModal({
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           {scores.map((score, index) => (
-            <div key={score.name} className="flex items-center justify-between">
-              <label htmlFor={score.name} className="flex items-center gap-4">
+            <div
+              key={score.name}
+              className="flex items-center justify-between gap-2 sm:gap-4"
+            >
+              <label
+                htmlFor={score.name}
+                className="flex flex-2 items-center gap-2 sm:gap-4"
+              >
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-900 font-medium text-white">
                   {index + 1}
                 </span>
-                <p>
+                <p className="flex-1">
                   Update your{" "}
                   <span className="font-semibold">{score.text}</span>
                 </p>
               </label>
-              <div className="ml-auto w-44">
+              <div className="ml-auto max-w-44 flex-1">
                 <input
                   type="text"
                   name={score.name}
