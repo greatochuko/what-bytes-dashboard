@@ -1,12 +1,17 @@
 "use client";
 
+import { useStatsContext } from "@/context/statsContext";
 import { PieChart } from "@mui/x-charts";
 import React from "react";
 
-const correctQuestions = 10;
-const totalQuestions = 15;
-
 export default function QuestionAnalysis() {
+  const { stats, totalQuestions } = useStatsContext();
+
+  const currentScoreStat = stats.find((stat) => stat.name === "currentScore");
+  const correctQuestions = currentScoreStat
+    ? Number(currentScoreStat.value)
+    : 0;
+
   return (
     <div className="flex flex-col gap-4 rounded-md border p-6 py-8 pb-0">
       <div className="flex justify-between font-semibold">
@@ -26,8 +31,8 @@ export default function QuestionAnalysis() {
           series={[
             {
               data: [
-                { id: 0, value: correctQuestions },
-                { id: 1, value: totalQuestions },
+                { id: 0, value: totalQuestions - correctQuestions },
+                { id: 1, value: correctQuestions },
               ],
               innerRadius: "70%",
               cx: 132,

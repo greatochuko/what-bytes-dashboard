@@ -1,16 +1,24 @@
 "use client";
 
+import { useStatsContext } from "@/context/statsContext";
 import { LineChart } from "@mui/x-charts";
 import React from "react";
 
 export default function ComparisonGraph() {
+  const { stats } = useStatsContext();
+
+  const percentileStat = stats.find((stat) => stat.name === "percentile");
+  const percentile = percentileStat ? Number(percentileStat.value) : 0;
+
   return (
     <div className="flex flex-col gap-4 rounded-md border p-4">
       <div className="flex items-center justify-between gap-4">
         <div className="flex flex-col gap-4">
           <h3 className="font-semibold">Comparison Graph</h3>
           <p className="text-zinc-700">
-            <span className="font-semibold">You scored 30% percentile</span>{" "}
+            <span className="font-semibold">
+              You scored {percentile}% percentile
+            </span>{" "}
             which is lower than the average percentile 72% of all the engineers
             who took this assessment
           </p>

@@ -1,5 +1,6 @@
 "use client";
 
+import { StatsType, useStatsContext } from "@/context/statsContext";
 import { ArrowRightIcon } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -9,44 +10,17 @@ type UpdateScoreModaslProps = {
   closeModal: () => void;
 };
 
-type ScoreType = {
-  name: "rank" | "percentile" | "currentScore";
-  text: string;
-  value: string;
-  errorMessage: string;
-};
-
-const initialScores: ScoreType[] = [
-  {
-    name: "rank",
-    text: "Rank",
-    value: "1",
-    errorMessage: "required | should be a number",
-  },
-  {
-    name: "percentile",
-    text: "Percentile",
-    value: "30",
-    errorMessage: "required | percentile 0-100",
-  },
-  {
-    name: "currentScore",
-    text: "Current Score (out of 15)",
-    value: "10",
-    errorMessage: "required",
-  },
-];
-
 export default function UpdateScoreModal({
   open,
   closeModal,
 }: UpdateScoreModaslProps) {
-  const [scores, setScores] = useState(initialScores);
+  const { stats, setStats, totalQuestions } = useStatsContext();
+  const [scores, setScores] = useState(stats);
 
-  const hasError = (field: ScoreType["name"], value: string) => {
+  const hasError = (field: StatsType["name"], value: string) => {
     switch (field) {
       case "currentScore":
-        return !value;
+        return !value || Number(value) > 15;
 
       case "percentile":
         return !value;
@@ -59,12 +33,20 @@ export default function UpdateScoreModal({
     }
   };
 
-  const changeScore = (field: ScoreType["name"], value: string) => {
+  const changeScore = (field: StatsType["name"], value: string) => {
     const numberValue = Number(value);
     if (isNaN(numberValue)) return;
 
     setScores((curr) =>
-      curr.map((score) => (score.name === field ? { ...score, value } : score)),
+      curr.map((score) =>
+        score.name === field
+          ? field === "currentScore"
+            ? { ...score, value, valueText: `${value}/${totalQuestions}` }
+            : field === "percentile"
+              ? { ...score, value, valueText: `${value}%` }
+              : { ...score, value, valueText: value }
+          : score,
+      ),
     );
   };
 
@@ -73,6 +55,9 @@ export default function UpdateScoreModal({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (hasAnyError) return;
+
+    setStats(scores);
+    closeModal();
   };
 
   return (

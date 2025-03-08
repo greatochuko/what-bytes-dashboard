@@ -1,12 +1,11 @@
+"use client";
+
+import { useStatsContext } from "@/context/statsContext";
 import React from "react";
 
-const stats = [
-  { name: "Your Rank", icon: "🏆", value: 1 },
-  { name: "Percentile", icon: "📝", value: "30%" },
-  { name: "Correct Answers", icon: "✅", value: "10/15" },
-];
-
 export default function QuickStatistics() {
+  const { stats } = useStatsContext();
+
   return (
     <div className="flex flex-col gap-4 rounded-md border p-4">
       <h3 className="font-semibold">Quick Statistics</h3>
@@ -20,8 +19,10 @@ export default function QuickStatistics() {
               {stat.icon}
             </div>
             <div className="">
-              <h4 className="text-[22px] font-bold">{stat.value}</h4>
-              <p className="text-sm text-zinc-600 uppercase">{stat.name}</p>
+              <h4 className="text-[22px] font-bold">{stat.valueText}</h4>
+              <p className="text-sm text-zinc-600 uppercase">
+                {stat.quickStatText}
+              </p>
             </div>
           </div>
         ))}
